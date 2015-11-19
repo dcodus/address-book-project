@@ -1,0 +1,29 @@
+{
+  "name": "address-book-command-line",
+  "version": "0.0.1",
+  "description": "An address book for the command line.",
+  "main": "book.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dcodus/address-book-project.git"
+  },
+  "keywords": [
+    "address",
+    "book",
+    "contacts",
+    "telephone",
+    "email"
+  ],
+  "author": "Codrin Diaconu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dcodus/address-book-project/issues"
+  },
+  "homepage": "https://github.com/dcodus/address-book-project#readme",
+  "dependencies": {
+    "inquirer": "^0.11.0"
+  }
+}
