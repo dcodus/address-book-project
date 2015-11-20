@@ -12,6 +12,16 @@ var cliTable = require("cli-table")
 
 //This function will return another fucntion that will be passed to the when: variable.
 //when: takes a true or false. If true it asks the question. If false it skips it.
+
+var mandatory = function(answer) {
+    if (!answer) {
+        return false
+    }
+    else {
+        return true
+    }
+}
+
 var find = function(field, type) {
     return function(answers) {
         //answers in this case takes all the input from the user up to this point,WHICH IS AN OBJECT
@@ -32,65 +42,135 @@ function searchKey(key) {
     });
     return results;
 }
-
-function firstToUpper(str){
-    return str.substr(0,1).toUpperCase() + str.substr(1);
+//This function converts the first letter of first name and last name to uppercase
+function firstToUpper(str) {
+    return str.substr(0, 1).toUpperCase() + str.substr(1);
 }
-
-function displayTable(contact, table){
+//This function will create the elements to be pushed to the table
+function displayTable(contact, table) {
     /////////////////NAME/////////////////
-    if(contact.lastName && contact.firstName){
-        table.push(
-            {'First Name': firstToUpper(contact.firstName)},
-            {'Last Name': firstToUpper(contact.lastName)}
-            )
-    } else if(contact.firstName){
-        table.push({'First Name': firstToUpper(contact.firstName)});
-    } else if(contact.lastName){
-        table.push({'Last Name': firstToUpper(contact.lastName)});
+    if (contact.lastName && contact.firstName) {
+        table.push({
+            'First Name': firstToUpper(contact.firstName)
+        }, {
+            'Last Name': firstToUpper(contact.lastName)
+        })
     }
-    
+    else if (contact.firstName) {
+        table.push({
+            'First Name': firstToUpper(contact.firstName)
+        });
+    }
+    else if (contact.lastName) {
+        table.push({
+            'Last Name': firstToUpper(contact.lastName)
+        });
+    }
+
     //////////////BIRTHDAY/////////////
-    if(contact.birthday){
-        table.push(
-            {'Date of birth': contact.birthday}
-            )
+    if (contact.birthday) {
+        table.push({
+            'Date of birth': contact.birthday
+        })
     }
     //////////////EMAILS/////////////
-    if(contact.personalEmail && contact.workEmail && contact.otherEmail){
-        table.push(
-            {'Emails': 'personal: '+contact.personalEmail + '\n' + 'work: ' + contact.workEmail + '\n' +'other: '+ contact.otherEmail}
-            )
-    } else if(contact.personalEmail && contact.workEmail){
-        table.push(
-            {'Emails': 'personal: ' + contact.personalEmail + '\n' + 'work: ' + contact.workEmail}
-            )
-    } else if(contact.workEmail && contact.otherEmail){
-        table.push(
-            {'Emails': 'work: ' + contact.workEmail + '\n' + 'other: ' + contact.otherEmail}
-            )
-    } else if(contact.personalEmail && contact.otherEmail){
-        table.push(
-            {'Emails': 'personal: ' + contact.personalEmail + '\n' + 'other: ' + contact.otherEmail}
-            )
-    } else if(contact.personalEmail){
-        table.push(
-            {'Emails': 'personal: ' + contact.personalEmail}
-            )
-    } else if(contact.workEmail){
-        table.push(
-            {'Emails': 'work: ' + contact.workEmail}
-            )
-    } else if(contact.otherEmail){
-        table.push(
-            {'Emails' : 'other: ' + contact.otherEmail}
-            )
+    if (contact.personalEmail && contact.workEmail && contact.otherEmail) {
+        table.push({
+            'Emails': 'personal: ' + contact.personalEmail + '\n' + 'work: ' + contact.workEmail + '\n' + 'other: ' + contact.otherEmail
+        })
+    }
+    else if (contact.personalEmail && contact.workEmail) {
+        table.push({
+            'Emails': 'personal: ' + contact.personalEmail + '\n' + 'work: ' + contact.workEmail
+        })
+    }
+    else if (contact.workEmail && contact.otherEmail) {
+        table.push({
+            'Emails': 'work: ' + contact.workEmail + '\n' + 'other: ' + contact.otherEmail
+        })
+    }
+    else if (contact.personalEmail && contact.otherEmail) {
+        table.push({
+            'Emails': 'personal: ' + contact.personalEmail + '\n' + 'other: ' + contact.otherEmail
+        })
+    }
+    else if (contact.personalEmail) {
+        table.push({
+            'Emails': 'personal: ' + contact.personalEmail
+        })
+    }
+    else if (contact.workEmail) {
+        table.push({
+            'Emails': 'work: ' + contact.workEmail
+        })
+    }
+    else if (contact.otherEmail) {
+        table.push({
+            'Emails': 'other: ' + contact.otherEmail
+        })
     }
     
+    //////////////PHONE NUMBERS/////////////
+    if (contact.homePhone && contact.workPhone && contact.otherPhone) {
+        table.push({
+            'Phone Numbers': 'home: ' + contact.homePhone + '\n' + 'work: ' + contact.workPhone + '\n' + 'other: ' + contact.otherPhone
+        })
+    } else if(contact.homePhone && contact.workPhone){
+        table.push({
+            'Phone Numbers': 'home: ' + contact.homePhone + '\n' + 'work: ' + contact.workPhone
+        })
+    } else if(contact.homePhone && contact.otherPhone){
+        table.push({
+            'Phone Numbers': 'home: ' + contact.homePhone + '\n' + 'other: ' + contact.otherPhone
+        })
+    } else if(contact.workPhone && contact.otherPhone){
+        table.push({
+            'Phone Numbers': 'work: ' + contact.workPhone + '\n' + 'other: ' + contact.otherPhone
+        })
+    } else if(contact.homePhone){
+        table.push({
+            'Phone Numbers': 'home: ' + contact.homePhone
+        })
+    } else if(contact.workPhone){
+        table.push({
+            'Phone Numbers': 'work: ' + contact.workPhone
+        })
+    } else if(contact.otherPhone){
+        table.push({
+            'Phone Numbers': 'other: ' + contact.otherPhone
+        })
+    }
     
-    
-    
-    
+    //////////////HOME ADDRESS/////////////
+    if(contact.homeAddressLine1 && contact.homeAddressLine2){
+        table.push(
+            {'Home Address': contact.homeAddressLine1 + '\n' + contact.homeAddressLine2 + '\n' + contact.homeCity + " " + contact.homeProvince + '\n' + contact.homePostalCode + '\n' + contact.homeCountry}
+            )
+    } else if(contact.homeAddressLine1){
+        table.push(
+            {'Home Address': contact.homeAddressLine1 + '\n' + contact.homeCity + " " + contact.homeProvince + '\n' + contact.homePostalCode + '\n' + contact.homeCountry}
+            )
+    }
+    //////////////WORK ADDRESS/////////////
+    if(contact.workAddressLine1 && contact.workAddressLine2){
+        table.push(
+            {'Work Address': contact.workAddressLine1 + '\n' + contact.workAddressLine2 + '\n' + contact.workCity + ' ' + contact.workProvince + '\n' +contact.workPostalCode + '\n' + contact.workCountry}
+            )
+    } else if(contact.workAddressLine1){
+        table.push(
+            {'Work Address': contact.workAddressLine1 + '\n' + contact.workCity + ' ' + contact.workProvince + '\n' +contact.workPostalCode + '\n' + contact.workCountry}
+            )
+    }
+    //////////////OTHER ADDRESS/////////////
+    if(contact.otherAddressLine1 && contact.otherAddressLine2){
+        table.push(
+            {'Other Address': contact.otherAddressLine1 + '\n' + contact.otherAddressLine2 + '\n' + contact.otherCity + ' ' + contact.otherProvince + '\n' +contact.otherPostalCode + '\n' + contact.otherCountry}
+            )
+    } else if(contact.otherAddressLine1){
+        table.push(
+            {'Other Address': contact.otherAddressLine1 + '\n' + contact.otherCity + ' ' + contact.otherProvince + '\n' +contact.otherPostalCode + '\n' + contact.otherCountry}
+            )
+    }
 }
 
 
@@ -140,10 +220,12 @@ function makeSearch() {
 
 var createContact = [{
     name: 'firstName',
-    message: 'First Name'
+    message: 'First Name (Mandatory)',
+    validate: mandatory
 }, {
     name: 'lastName',
-    message: 'Last Name'
+    message: 'Last Name (Mandatory)',
+    validate: mandatory
 }, {
     name: 'birthday',
     message: 'Date of birth (yyyy/mm/dd) (Optional)',
@@ -167,8 +249,6 @@ var createContact = [{
     }, {
         name: 'work'
     }, {
-        name: 'cell'
-    }, {
         name: 'other'
     }]
 }, {
@@ -184,7 +264,8 @@ var createContact = [{
     }]
 }, {
     name: 'homeAddressLine1',
-    message: "Home address Line 1",
+    message: "Home address Line 1 (Mandatory Field)",
+    validate: mandatory,
     when: find('addresses', 'home')
 
 }, {
@@ -193,23 +274,28 @@ var createContact = [{
     when: find('addresses', 'home')
 }, {
     name: 'homeCity',
-    message: 'Home City',
+    message: 'Home City (Mandatory Field)',
+    validate: mandatory,
     when: find('addresses', 'home')
 }, {
     name: 'homeProvince',
-    message: 'Home Province',
+    message: 'Home Province (Mandatory Field)',
+    validate: mandatory,
     when: find('addresses', 'home')
 }, {
     name: 'homePostalCode',
-    message: 'Home Postal Code',
+    message: 'Home Postal Code (Mandatory Field)',
+    validate: mandatory,
     when: find('addresses', 'home')
 }, {
     name: 'homeCountry',
-    message: 'Home Country',
+    message: 'Home Country (Mandatory Field)',
+    validate: mandatory,
     when: find('addresses', 'home')
 }, {
     name: 'workAddressLine1',
-    message: "Work address Line 1",
+    message: "Work address Line 1 (Mandatory Field)",
+    validate: mandatory,
     when: find('addresses', 'work')
 
 }, {
@@ -219,23 +305,28 @@ var createContact = [{
 
 }, {
     name: 'workCity',
-    message: 'Work City',
+    message: 'Work City (Mandatory Field)',
+    validate: mandatory,
     when: find('addresses', 'work')
 }, {
     name: 'workProvince',
-    message: 'Work Province',
+    message: 'Work Province (Mandatory Field)',
+    validate: mandatory,
     when: find('addresses', 'work')
 }, {
     name: 'workPostalCode',
-    message: 'Work Postal Code',
+    message: 'Work Postal Code (Mandatory Field)',
+    validate: mandatory,
     when: find('addresses', 'work')
 }, {
     name: 'workCountry',
-    message: 'Work Country',
+    message: 'Work Country (Mandatory Field)',
+    validate: mandatory,
     when: find('addresses', 'work')
 }, {
-    name: 'otheAddressLine1',
-    message: "Other address Line 1",
+    name: 'otherAddressLine1',
+    message: "Other address Line 1 (Mandatory Field)",
+    validate: mandatory,
     when: find('addresses', 'other')
 
 }, {
@@ -245,47 +336,53 @@ var createContact = [{
 
 }, {
     name: 'otherCity',
-    message: 'Other City',
+    message: 'Other City (Mandatory Field)',
+    validate: mandatory,
     when: find('addresses', 'other')
 }, {
     name: 'otherProvince',
-    message: 'Other Province',
+    message: 'Other Province (Mandatory Field)',
+    validate: mandatory,
     when: find('addresses', 'other')
 }, {
     name: 'otherPostalCode',
-    message: 'Other Postal Code',
+    message: 'Other Postal Code (Mandatory Field)',
+    validate: mandatory,
     when: find('addresses', 'other')
 }, {
     name: 'otherCountry',
-    message: 'Other Country',
+    message: 'Other Country (Mandatory Field)',
+    validate: mandatory,
     when: find('addresses', 'other')
 }, {
     name: 'personalEmail',
-    message: 'Personal Email Address',
+    message: 'Personal Email Address (Mandatory Field)',
+    validate: mandatory,
     when: find('emailAddresses', 'personal')
 }, {
     name: 'workEmail',
-    message: 'Work Email Address',
+    message: 'Work Email Address (Mandatory Field)',
+    validate: mandatory,
     when: find('emailAddresses', 'work')
 }, {
     name: 'otherEmail',
-    message: 'Other Email Address',
+    message: 'Other Email Address (Mandatory Field)',
+    validate: mandatory,
     when: find('emailAddresses', 'other')
 }, {
-    name: 'personalPhone',
-    message: 'Personal Phone Number',
-    when: find('phoneNumbers', 'personal')
+    name: 'homePhone',
+    message: 'Home Phone Number (Mandatory Field)',
+    validate: mandatory,
+    when: find('phoneNumbers', 'home')
 }, {
     name: 'workPhone',
-    message: 'Work Phone Number',
+    message: 'Work Phone Number (Mandatory Field)',
+    validate: mandatory,
     when: find('phoneNumbers', 'work')
 }, {
-    name: 'cellPhone',
-    message: 'Cell Phone Number',
-    when: find('phoneNumbers', 'cell')
-}, {
     name: 'otherPhone',
-    message: 'Other Phone Number',
+    message: 'Other Phone Number (Mandatory Field)',
+    validate: mandatory,
     when: find('phoneNumbers', 'other')
 }]
 
@@ -315,7 +412,10 @@ function book() {
             inquirer.prompt(createContact, function(contact) {
                 //We push the new entries to the global variable contacts.
                 contacts.push(contact);
-                console.log(contacts)
+                var r = contact;
+                var table = new cliTable();
+                displayTable(r, table);
+                console.log(table.toString());
                 book();
             })
         }
@@ -325,12 +425,12 @@ function book() {
                 //The selcted choice from the user was saved in the resultChoice in the function makeSearch 
                 var r = answers.resultChoice;
                 var table = new cliTable();
-                
+
                 //We have to build the table manually!!
-                
+
                 displayTable(r, table);
-               
-                
+
+
                 console.log(table.toString());
                 book();
             })
