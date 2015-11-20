@@ -7,10 +7,16 @@ function firstToUpper(str) {
     return str.substr(0, 1).toUpperCase() + str.substr(1);
 }
 //This function will create the elements to be pushed to the table
-function displayTable(contact) {
-    var contact = contact.resultChoice;
-    var table = new cliTable();
+function displayTable(searchContact) {
+    var contact;
     console.log(contact);
+    if(searchContact.resultChoice){
+        contact = searchContact.resultChoice
+    } else {
+        contact = searchContact
+    }
+    
+    var table = new cliTable();
     
     /////////////////NAME/////////////////
     if (contact.lastName && contact.firstName) {
@@ -101,5 +107,6 @@ function displayTable(contact) {
             {'Other Address': contact.otherAddressLine1 + '\n' + contact.otherCity + ' ' + contact.otherProvince + '\n' +contact.otherPostalCode + '\n' + contact.otherCountry}
             )
     }
+    
     return table.toString();
 }
