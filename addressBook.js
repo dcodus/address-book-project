@@ -5,6 +5,7 @@ var searchContact = require("./searchContact");
 var displayTable = require("./displayTable");
 var updateContact = require("./updateContact");
 module.exports = addressBook;
+
 //////////////Database//////////////
 var contacts = [];
 //////////////Database//////////////
@@ -134,13 +135,13 @@ var mainMenu = [{
 //Validate
 var searchMenu = [{
     name: 'search',
-    message: 'Please input a name or search key to search by\n  or hit enter to see all contacts',
+    message: 'Please input a name or search key\n  or hit enter to see all contacts',
 }];
 
 var noMatches = [{
     name: 'noMatches',
     type: 'list',
-    message: 'No matches found.\nWould you like to search again or return to the main menu?',
+    message: 'No matches found!\n  Would you like to search again or return to the main menu?',
     choices: [{
         name: 'Search again',
         value: 'search'
