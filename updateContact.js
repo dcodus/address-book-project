@@ -6,6 +6,14 @@ var askNext = require("./createUpdateFunctions").askNext;
 
 module.exports = updateContact;
 
+function checkSelection(field, type, oldContact){
+    if(oldContact[field].indexOf(type) > -1){
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function updateContact(old){
    return [{
     name: 'firstName',
@@ -29,34 +37,42 @@ function updateContact(old){
     message: 'Choose the type(s) of address(es) you would like to add',
     type: 'checkbox',
     choices: [{
-        name: 'home'
+        name: 'home',
+        checked: checkSelection('addresses', 'home', old)
     }, {
-        name: 'work'
+        name: 'work',
+        checked: checkSelection('addresses', 'work', old)
     }, {
-        name: 'other'
-    },
-    ]
+        name: 'other',
+        checked: checkSelection('addresses', 'other', old)
+    }]
 }, {
     name: 'phoneNumbers',
     message: 'Choose the type(s) of phone number(es) you would like to add',
     type: 'checkbox',
     choices: [{
-        name: 'home'
+        name: 'home',
+        checked: checkSelection('phoneNumbers', 'home', old)
     }, {
-        name: 'work'
+        name: 'work',
+        checked: checkSelection('phoneNumbers', 'work', old)
     }, {
-        name: 'other'
+        name: 'other',
+        checked: checkSelection('phoneNumbers', 'other', old)
     }]
 }, {
     name: 'emailAddresses',
     message: 'Choose the type(s) of email(s) you would like to add',
     type: 'checkbox',
     choices: [{
-        name: 'personal'
+        name: 'personal',
+        checked: checkSelection('emailAddresses', 'personal', old)
     }, {
-        name: 'work'
+        name: 'work',
+        checked: checkSelection('emailAddresses', 'work', old)
     }, {
-        name: 'other'
+        name: 'other',
+        checked: checkSelection('emailAddresses', 'other', old)
     }]
 }, {
     name: 'homeAddressLine1',

@@ -27,6 +27,7 @@ function editContact(current, allContacts){
     allContacts.forEach(function(c){
         if(current.id === c.id){
             inquirer.prompt(updateContact(current), function(newContact){
+                for(var prop in current)
                 newContact.id = current.id
                 //We used splice because push was pushing to the end of the array.
                 //Where splice replaces at the same location
@@ -47,6 +48,8 @@ function deleteContact(current, allContacts){
                 if(answer.delete === true){
                     allContacts.pop(current);
                     changeId();
+                    addressBook();
+                } else {
                     addressBook();
                 }
             })
@@ -77,6 +80,36 @@ function matches(results){
     }
     }]
 }
+
+function searchEntry(){
+    inquirer.prompt(searchMenu, function(searchKey){
+                //searchKey is an object. search is the property.
+                if(searchKey.search.length < 3 && searchKey.search.length !== 0){
+                    console.log('\nProvide a minimum of three (3) characters to search.')
+                    searchEntry();
+                } else {
+                    var results = searchContact(searchKey.search, contacts);
+                    if(results.length === 0){
+                        inquirer.prompt(noMatches, function(choice){
+                            //choice is an object. the property is noMatches
+                            if(choice.noMatches === 'search'){
+                                searchEntry();
+                            } else {
+                                addressBook();
+                            }
+                        })
+                    } else {
+                    //to have access to our results we will create a function that takes a parameter
+                    //in this case we pass results as a parameter
+                    //when we build our list of choices we will have access to our results
+                    inquirer.prompt(matches(results), function(selected){
+                        viewContact(selected);
+                    })
+                    }
+                }
+            })
+}
+
 
 //////////////Main Menu Prompts//////////////
 var mainMenu = [{
@@ -182,32 +215,3 @@ function addressBook(){
     })
 }
 addressBook();
-
-function searchEntry(){
-    inquirer.prompt(searchMenu, function(searchKey){
-                //searchKey is an object. search is the property.
-                if(searchKey.search.length < 3 && searchKey.search.length !== 0){
-                    console.log('\nProvide a minimum of three (3) characters to search.')
-                    searchEntry();
-                } else {
-                    var results = searchContact(searchKey.search, contacts);
-                    if(results.length === 0){
-                        inquirer.prompt(noMatches, function(choice){
-                            //choice is an object. the property is noMatches
-                            if(choice.noMatches === 'search'){
-                                searchEntry();
-                            } else {
-                                addressBook();
-                            }
-                        })
-                    } else {
-                    //to have access to our results we will create a function that takes a parameter
-                    //in this case we pass results as a parameter
-                    //when we build our list of choices we will have access to our results
-                    inquirer.prompt(matches(results), function(selected){
-                        viewContact(selected);
-                    })
-                    }
-                }
-            })
-}
