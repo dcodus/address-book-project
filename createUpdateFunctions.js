@@ -10,7 +10,8 @@ module.exports = {
    
 function birthday(answer){
     if(answer && (answer.length !== 10 || dateValidation(answer) === false)){
-        console.log('\nPlease make sure the birthay is entered in the specified format YYYY/MM/DD');
+        console.log('\n  Make sure the birthay is entered in the specified format  '.bgRed.white);
+        console.log('\n  YYYY/MM/DD  '.bgGreen.white);
         return false;
     } else if(answer && answer.length === 10 && dateValidation(answer) === true) {
         return true;
@@ -29,7 +30,7 @@ function dateValidation(date){
 
 function mandatory(answer){
     if(answer.length < 3){
-        console.log('\nPlease input a minimum of three characters!')
+        console.log('\n  Please input a minimum of three (3) characters! '.bgRed.white)
         return false;
     } else {
         return true;

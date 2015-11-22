@@ -4,6 +4,7 @@ var createContact = require("./createContact");
 var searchContact = require("./searchContact");
 var displayTable = require("./displayTable");
 var updateContact = require("./updateContact");
+var colors = require("colors")
 module.exports = addressBook;
 
 //////////////Database//////////////
@@ -86,7 +87,7 @@ function searchEntry(){
     inquirer.prompt(searchMenu, function(searchKey){
                 //searchKey is an object. search is the property.
                 if(searchKey.search.length < 3 && searchKey.search.length !== 0){
-                    console.log('\nProvide a minimum of three (3) characters to search.')
+                    console.log('\n  Provide a minimum of three (3) characters to search  '.bgRed.white)
                     searchEntry();
                 } else {
                     var results = searchContact(searchKey.search, contacts);
@@ -200,7 +201,7 @@ function viewContact(choice){
 function addressBook(){
     inquirer.prompt(mainMenu, function(menuChoice){
         if(menuChoice.menu === 'exit'){
-            console.log('Have a good day!');
+            console.log('  Have a good day!  '.bgGreen.white);
             return;
         } else if(menuChoice.menu === 'create'){
             inquirer.prompt(createContact(), function(userInput){
