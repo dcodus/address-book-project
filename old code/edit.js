@@ -36,7 +36,7 @@ function getEditCon(contact) {
 }, {
     name: 'birthday',
     message: 'Date of birth (yyyy/mm/dd) (Optional)',
-    debugger: contact.resultChoice.birthday
+    default: contact.resultChoice.birthday
 }, {
     name: 'addresses',
     message: 'Choose the type(s) of address(es) you would like to add',
@@ -251,11 +251,9 @@ function deleteEntry(delCon){
 
 function editContact(contact, cb){
     inquirer.prompt(editEntry, function(choice){
-        console.log(choice)
             if(choice.edit === 'edit'){
                 inquirer.prompt(getEditCon(contact), function(answers){
                     answers.id = contact.resultChoice.id
-                    console.log(answers);
                     cb(answers);
                 })
             } else if(choice.edit === 'delete'){

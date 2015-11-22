@@ -4,33 +4,23 @@ var create = require('./create');
 var display = require('./display');
 var edit = require('./edit');
 
-
 ////////////////Question Help Functions////////////////////
 
-
 function searchKey(key) {
-    // var results = contacts.filter(function(contact) {
-    //     console.log(contact);
-    //     if (contact) {
-    //         for (var prop in contact) {
-    //             console.log(prop);
-    //             if (contact[prop].indexOf(key) > -1) {
-    //                 return true;
-    //             }
-    //         }
-    //     }
-    // });
+    //We loop over all the contacs in the database
     var results = contacts.filter(function(contact){
+        //We loop over all the properties found in each contact
         for(var prop in contact){
+            //We check if the property value is a string
             if(typeof contact[prop] === 'string'){
+                //If it is we will push that contat to the new array
                 if(contact[prop].match(key)){
                     return true;
                 }
             } 
         }
     })
-    
-    
+    //We are returning all matches as an array
     return results;
 }
 
@@ -38,10 +28,9 @@ function changeId() {
     //Loop over the keys of the array. Loop over index
     for (var i in contacts) {
         contacts[i].id = i;
+        console.log(contacts[i].id)
     }
 }
-
-////////////////Question Help Functions////////////////////
 
 ////////////////QUESTIONS////////////////////
 var mainMenu = [{
@@ -107,8 +96,10 @@ function makeSearch() {
         }
     }, 
     {
-        name: 'Test',
-        message: 'Nothig Found',
+        name: 'noMathes',
+        message: 'No matches found!',
+        type: 'list',
+        choices: ['Back to Main Menu'],
         when: function(answers){
             console.log(answers)
             console.log(searchKey(answers.Search));
@@ -118,10 +109,6 @@ function makeSearch() {
     }
     ];
 }
-
-
-
-
 
 ////////////////DATABASE////////////////////
 var contacts = [];
@@ -152,10 +139,9 @@ function book() {
         else if (menuChoice[mainMenu[0].name] === 'search') {
             //IMPORTANT see how we call the function makeSearch here. We are initializing the questions that is why we have access to resultChoice.
             inquirer.prompt(makeSearch(), function(answers) {
-                //The selcted choice from the user was saved in the resultChoice in the function makeSearch 
-                console.log(answers)
+                //The selected choice from the user was saved in the resultChoice in the function makeSearch 
+                console.log(answers);
                 edit(answers, function(n, bool) {
-
                     if (bool === true) {
                         contacts.pop(n.id);
                         changeId();
@@ -164,7 +150,6 @@ function book() {
                         console.log(display(n))
                         contacts.forEach(function(x, index) {
                             if (x.id === n.id) {
-
                                 contacts.splice(index, 1, n);
                             }
                         })
@@ -188,31 +173,3 @@ function editEntry(entry) {
     })
 }
 
-function findEdit() {
-    //IMPORTANT see how we call the function makeSearch here. We are initializing the questions that is why we have access to resultChoice.
-    inquirer.prompt(makeSearch(), function(answers) {
-        //The selcted choice from the user was saved in the resultChoice in the function makeSearch 
-        var r = answers.resultChoice;
-        var table = new cliTable();
-
-        //We have to build the table manually!!
-
-        displayTable(r, table);
-
-
-        console.log(table.toString());
-        book();
-    })
-}
-
-
-
-/*
-  if (bool === 'true') {
-                        contacts.forEach(function(x, index) {
-                            if (x.id === n.id) {
-                                contacts.splice(index, 1);
-                            }
-                        })
-                    }
-*/
