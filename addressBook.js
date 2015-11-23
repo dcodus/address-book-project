@@ -59,7 +59,6 @@ function deleteContact(current, allContacts){
     })
 }
 
-
 function matches(results){
     //this function will be passed all the results
     return [{
@@ -112,6 +111,21 @@ function searchEntry(){
             })
 }
 
+function viewContact(choice){
+    console.log(displayTable(choice.select));
+    inquirer.prompt(editMenu, function(editChoice){
+        if(editChoice.edit === 'edit'){
+            var contact = choice.select;
+            editContact(contact, contacts)
+            
+        } else if(editChoice.edit === 'delete'){
+            var contact = choice.select;
+            deleteContact(contact,contacts);
+        } else if(editChoice.edit === 'back'){
+            addressBook();
+        }
+    })
+}
 
 //////////////Main Menu Prompts//////////////
 var mainMenu = [{
@@ -131,7 +145,6 @@ var mainMenu = [{
 }];
 
 //////////////Search Menu//////////////
-
 
 //Validate
 var searchMenu = [{
@@ -176,25 +189,6 @@ var deleteMenu = [{
     message: 'Are you sure you want to delete this entry?',
     type: 'confirm'
 }];
-
-
-//////////////View Function//////////////
-
-function viewContact(choice){
-    console.log(displayTable(choice.select));
-    inquirer.prompt(editMenu, function(editChoice){
-        if(editChoice.edit === 'edit'){
-            var contact = choice.select;
-            editContact(contact, contacts)
-            
-        } else if(editChoice.edit === 'delete'){
-            var contact = choice.select;
-            deleteContact(contact,contacts);
-        } else if(editChoice.edit === 'back'){
-            addressBook();
-        }
-    })
-}
 
 //////////////Main Program//////////////
 
